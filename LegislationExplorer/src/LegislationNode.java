@@ -10,6 +10,7 @@ public class LegislationNode {
     private LinkedList<LegislationNode> children;
     private int min;
     private int max;
+    private int num;
     public LegislationNode(){
         children = new LinkedList<>();
         data = "";
@@ -17,9 +18,10 @@ public class LegislationNode {
         max=0;
     }
 
-    public LegislationNode(String data){
+    public LegislationNode(String data , int num){
         this();
         this.data = data;
+        this.num=num;
     }
 
     public void setRange(int min, int max){
@@ -70,5 +72,12 @@ public class LegislationNode {
         return data;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
 }
 

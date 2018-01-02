@@ -17,10 +17,10 @@ public class Printer {
 
 
     private String elements(LegislationNode root)throws Exception{
-        if(parser.getWhat()[7]==0){
-            //konkretna ścieżka
+        if(parser.getWhat()[9]==0){
+            //single
             try{
-                LegislationNode ln =pathBuilder(parser.getWhat(), 0,root);
+                LegislationNode ln = pathBuilder(parser.getWhat(), 0,root);
                 return ln.toString();
             }catch(IndexOutOfBoundsException e){
                 throw new Exception("Element not found!");
@@ -74,21 +74,19 @@ public class Printer {
                 (parser.getWhat()[1]>0 && parser.getWhat()[1]<=max)))
             throw new Exception("Articles out of bounds!");
 
-        int count =0;
+
         StringBuilder sb = new StringBuilder();
+
+
         for(int i=0; i<root.getChildren().size();i++){
             for(int j=0; j<root.getChild(i).getChildren().size();j++){
-                for(int k =0;k<root.getChild(i).getChild(j).getChildren().size();k++){
-                    count++;
-                    if(count>=parser.getWhat()[0] && count<=parser.getWhat()[1]) {
-                        sb.append(root.getChild(i).getChild(j).getChild(k).toString());
-                    }
-                    if(count>parser.getWhat()[1])
-                        return sb.toString();
-                }
+                for(int k=0; k<root.getChild(i).getChild(j).getChildren().size();k++)
+                if(root.getChild(i).getChild(j).getChild(k).getNum()<=parser.getWhat()[1]
+                        && root.getChild(i).getChild(j).getChild(k).getNum()>=parser.getWhat()[0])
+                    sb.append(root.getChild(i).getChild(j).getChild(k).toString());
             }
         }
-        return "";
+        return sb.toString();
     }
 
     private String tableOfContents(LegislationNode root){
@@ -123,7 +121,7 @@ public class Printer {
 
 
     private LegislationNode pathBuilder(int[] what, int step, LegislationNode node)throws IndexOutOfBoundsException{
-        if(step<7 && what[step]!=(-1)){
+        if(step<10 && what[step]!=(-1)){
             return pathBuilder(what,step+1,node.getChild(what[step]-node.getMin()));
         }
         return node;

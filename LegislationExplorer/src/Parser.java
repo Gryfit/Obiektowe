@@ -7,12 +7,12 @@ import java.util.stream.Stream;
 
 public class Parser {
     private int mode;
-    private int[] what = new int[8];
+    private int[] what = new int[10];
     private String text;
     private int type;
 
     public void parse(String[] args) throws Exception {
-        for(int i=0;i<7;i++)
+        for(int i=0;i<10;i++)
             what[i]=(-1);
         if(args.length<2)
             throw new Exception("Too few arguments!");
@@ -25,12 +25,12 @@ public class Parser {
 
         mode = Integer.parseInt(args[1]);
 
-        if((mode==0 && args.length!=3) || (mode==1 && args.length>3)){
+        if((mode==1 && args.length>3) || (mode==0 && args.length>9)){
             throw new IllegalArgumentException("Inappropriate number of arguments!");
 
         }
-    if(args.length==3)
-        elements(args[2]);
+        if(args.length>2)
+            elements(args);
     }
 
 
@@ -58,26 +58,36 @@ public class Parser {
         return strings;
     }
 
-    private void elements(String s){
+    private void elements(String[] s){
         Pattern p = Pattern.compile("\\d+-\\d+");
-        Matcher m = p.matcher(s);
-        if(m.find()){
-            what[7]=1;
+        Matcher m = p.matcher(s[2]);
+        if(m.find()){//range
+            what[9]=1;
+            Pattern p2 = Pattern.compile("\\d+");
+            Matcher m2 = p2.matcher(s[2]);
+            int i=0;
+            while(m2.find()){
+                what[i++]=Integer.parseInt(s[2].substring(m2.start(),m2.end()));
+            }
+            return;
         }
-        Pattern p2 = Pattern.compile("\\d+");
-        Matcher m2 = p2.matcher(s);
+        what[9]=0;
+        //single
+        int i=0;
+        while(i+2<s.length){
+            if(s[i+2].equals("_")){
+                what[i]=1;
+            }else{
+                if(i == 3 || i == 6){
+                    what[i]= (int)s[i+2].charAt(0);
+                    what[i]-=96;
 
-        Pattern p3 = Pattern.compile("\\D");
-        Matcher m3 = p3.matcher(s.substring(s.length()-1,s.length()));
-        int i= 0;
-        while(m2.find()){
-            what[i++]=Integer.parseInt(s.substring(m2.start(),m2.end()));
+                }else{
+                    what[i]=Integer.parseInt(s[i+2]);
+                }
+            }
+            i++;
         }
-        if(m3.find()){
-            what[5]=(int)s.charAt(s.length()-1)-96;
-        }
-
-
 
     }
 

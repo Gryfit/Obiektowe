@@ -25,7 +25,7 @@ public class Parser {
 
         mode = Integer.parseInt(args[1]);
 
-        if((mode==1 && args.length>3) || (mode==0 && args.length>9)){
+        if((mode==1 && args.length>3) || (mode==0 && args.length>10)){
             throw new IllegalArgumentException("Inappropriate number of arguments!");
 
         }
@@ -58,7 +58,7 @@ public class Parser {
         return strings;
     }
 
-    private void elements(String[] s){
+    private void elements(String[] s) throws Exception{
         Pattern p = Pattern.compile("\\d+-\\d+");
         Matcher m = p.matcher(s[2]);
         if(m.find()){//range
@@ -73,22 +73,53 @@ public class Parser {
         }
         what[9]=0;
         //single
-        int i=0;
-        while(i+2<s.length){
-            if(s[i+2].equals("_")){
-                what[i]=1;
-            }else{
-                if(i == 3 || i == 6){
-                    what[i]= (int)s[i+2].charAt(0);
-                    what[i]-=96;
 
-                }else{
-                    what[i]=Integer.parseInt(s[i+2]);
+        if(type == 1) {
+            what[0] = Integer.parseInt(s[2]);
+            if (what[0] > 3) {
+                what[0]++;
+            }
+            if (s.length >= 3) {
+                if (s[3].equals("A") && what[0] == 3) {
+                    what[0]++;
+                }
+                if (s[3].equals("_") && s[3].equals("A")) {
+                    throw new Exception("Element not found!");
                 }
             }
-            i++;
-        }
 
+            int i = 1;
+            while (i + 3 < s.length) {
+                if (s[i + 3].equals("_")) {
+                    what[i] = 1;
+                } else {
+                    if (i == 3 || i == 6) {
+                        what[i] = (int) s[i + 3].charAt(0);
+                        what[i] -= 96;
+
+                    } else {
+                        what[i] = Integer.parseInt(s[i + 3]);
+                    }
+                }
+                i++;
+            }
+        }else{
+            int i = 0;
+            while (i + 2 < s.length) {
+                if (s[i + 2].equals("_")) {
+                    what[i] = 1;
+                } else {
+                    if (i == 6) {
+                        what[i] = (int) s[i + 2].charAt(0);
+                        what[i] -= 96;
+
+                    } else {
+                        what[i] = Integer.parseInt(s[i + 2]);
+                    }
+                }
+                i++;
+            }
+        }
     }
 
     public String getText() { return text; }

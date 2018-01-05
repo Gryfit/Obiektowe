@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.stream.Collectors;
 
@@ -76,8 +75,5 @@ public class LegislationNode {
         return num;
     }
 
-    public void setNum(int num) {
-        this.num = num;
-    }
 }
 

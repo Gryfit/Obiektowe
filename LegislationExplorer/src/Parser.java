@@ -10,8 +10,19 @@ public class Parser {
     private int[] what = new int[10];
     private String text;
     private int type;
-
-    public void parse(String[] args) throws Exception {
+    private String Instruction = "Program posiada 2 tryby działania specyfikowane przez drugi argument.\n"
+            +"Jako pierwszy arghument podaje się ścieżkę bezwzględną do pliku .txt z treścią ustawy.\n"
+            +"Drugim arguemntem jest tryb działania programu:\n"
+            +"1 -> tryb spisu treści dopuszcza się jeden dodtakowy argument określający numer działu w przypadku UOKIK\n"
+            +"2 -> tryb wyświetlania treści, przyjmuje następujące argumenty (przy czym dwa są obowiązkowe):\n"
+            +"Program przyjmuje liczby lub litery oraz znak specjalny _ umożliwający oznaczający brak lub pierwszą pozycję ich kolejnośc i znaczenie zapisano poniżej \n"
+            +"#Dział #LiteraDziału #Rozdział #Artykuł #literaArtykułu #Punkt #Podpunkt #Litera -> dla UOKIK\n"
+            +"#Rozdział #Artykuł #Punkt -> dla Konstytucji\n";
+    public int parse(String[] args) throws Exception {
+        if (args.length == 1 &&  args[0].equals("--help")){
+            System.out.println(Instruction);
+            return 1;
+        }
         for(int i=0;i<10;i++)
             what[i]=(-1);
         if(args.length<2)
@@ -31,6 +42,7 @@ public class Parser {
         }
         if(args.length>2)
             elements(args);
+        return 0;
     }
 
 
@@ -79,12 +91,17 @@ public class Parser {
             if (what[0] > 3) {
                 what[0]++;
             }
-            if (s.length >= 3) {
-                if (s[3].equals("A") && what[0] == 3) {
-                    what[0]++;
-                }
-                if (s[3].equals("_") && s[3].equals("A")) {
-                    throw new Exception("Element not found!");
+            if (s.length >= 3 ) {
+                if(mode==0) {
+                    if (s[3].equals("A") && what[0] == 3) {
+                        what[0]++;
+                    }
+                    if (s[3].equals("_") && s[3].equals("A")) {
+                        throw new Exception("Element not found!");
+                    }
+                }else{
+                    what[0]=Integer.parseInt(s[2]);
+                    return;
                 }
             }
 

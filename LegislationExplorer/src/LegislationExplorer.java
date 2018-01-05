@@ -3,7 +3,7 @@ public class LegislationExplorer {
 
     public static void main (String[] args){
         /*
-            wymagana jest pełna ścieżka: dział rozdział artykuł punkt itp. nawet wtedy kiedy nie ma oficjalnie rozdziału
+            wymagana jest pełna ścieżka: dział rozdział artykuł punkt itp. nawet wtedy kiedy nie ma oficjalnie rozdziału  w takim przypadku używamy _
             przykładowy input:
             path 1 #dział #litDziału #rozdział #artykuł #literaArtykułu #punkt #podpunkt #litera
             z powodu braku przykładowego inputu w specyfikacji projketu przyjąłem powyższy.
@@ -14,7 +14,10 @@ public class LegislationExplorer {
         try{
 
             Parser parser = new Parser();
-            parser.parse(args);
+            int o =parser.parse(args);
+            if(o==1){
+                return;
+            }
             LegislationNode legislationRoot =
                     new LegislationTreeFactory(parser).makeLegislationTree();
             Printer printer = new Printer(parser);

@@ -20,8 +20,13 @@ public class Printer {
         if(parser.getWhat()[9]==0){
             //single
             try{
-                LegislationNode ln = pathBuilder(parser.getWhat(), 0,root);
-                return ln.toString();
+                if(parser.textType()==1) {
+                    LegislationNode ln = pathBuilderUOKIK(parser.getWhat(), 0, root);
+                    return ln.toString();
+                }else{
+                    LegislationNode ln = pathBuilderKonstytucja(parser.getWhat(),0,root);
+                    return  ln.toString();
+                }
             }catch(IndexOutOfBoundsException e){
                 throw new Exception("Element not found!");
             }
@@ -129,7 +134,7 @@ public class Printer {
     }
 
 
-    private LegislationNode pathBuilder(int[] what, int step, LegislationNode node)throws IndexOutOfBoundsException{
+    private LegislationNode pathBuilderUOKIK(int[] what, int step, LegislationNode node)throws IndexOutOfBoundsException{
         if(step<10 && what[step]!=(-1)){
             if(step == 2){
                 LegislationNode n = new LegislationNode();
@@ -138,11 +143,17 @@ public class Printer {
                         n = node.getChild(i);
                     }
                 }
-                return pathBuilder(what,step+1,n);
+                return pathBuilderUOKIK(what,step+1,n);
             }else{
-                return pathBuilder(what,step+1,node.getChild(what[step]-1));
+                return pathBuilderUOKIK(what,step+1,node.getChild(what[step]-1));
             }
         }
         return node;
     }
+    private  LegislationNode pathBuilderKonstytucja(int[] what, int step, LegislationNode node) throws IndexOutOfBoundsException{
+        if(step<3 && what[step]!=(-1))
+            return pathBuilderKonstytucja(what,step+1,node.getChild(what[step]-1));
+        return node;
+    }
+
 }

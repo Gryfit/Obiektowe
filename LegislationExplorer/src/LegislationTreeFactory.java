@@ -29,7 +29,7 @@ public class LegislationTreeFactory {
             "^Rozdział \\d+\\R",
             "^Art\\. \\d+\\. |^Art\\. \\d+.\\d+\\.",
             "^Art\\. \\d+\\D\\.",
-            "^(Art. \\d+\\. )?\\d+\\. ",
+            "^(Art. .+\\. )?\\d+\\. ",
             "^\\d+\\) ",
             "^\\D\\) "
     };

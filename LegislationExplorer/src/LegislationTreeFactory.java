@@ -59,14 +59,13 @@ public class LegislationTreeFactory {
             w.end=m.end();
             wrappers.add(w);
         }
-
+        boolean flag = false;
         int old = articles;
         if(index==(v==1?2:1)){
             root.setRange(articles, articles+ (wrappers.size()-1>=0?wrappers.size()-1:0));
             articles +=(wrappers.size());
             if(s.contains("Art. 115–129.")){
-                root.setRange(articles+14, articles+wrappers.size()+14);
-                articles+=(wrappers.size()+14);
+                flag=true;
             }
             if(s.contains("Art. 23b.")){
                 articles=24;
@@ -92,11 +91,12 @@ public class LegislationTreeFactory {
         }else {
             root.setData(s.substring(0, wrappers.get(0).start));
             for (int i = 1; i < wrappers.size(); i++) {
+
                 root.addChild(new LegislationNode(
                         s.substring(
                                 wrappers.get(i - 1).start,
                                 wrappers.get(i).start
-                        ),old+i-1
+                        ),old+i-1 + (flag && i>1? 14:0)
                         ));
             }
             root.addChild(new LegislationNode(
@@ -111,5 +111,4 @@ public class LegislationTreeFactory {
             rek(root.getChild(i), index + 1,v);
         }
     }
-
 }

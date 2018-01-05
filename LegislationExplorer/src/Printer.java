@@ -117,7 +117,7 @@ public class Printer {
                 return sb.toString();
             }else{
                 StringBuilder sb = new StringBuilder("Ustawa o ochronie konkurencji i konsumentów" + "\n"
-                        + "Spis Treści Działu: " + (parser.getWhat()[0]+1) +"\n");
+                        + "Spis Treści Działu: " + (parser.getWhat()[0]+(parser.getWhat()[0]>3?0:1)) +"\n");
                 for (LegislationNode ln2 : root.getChild(parser.getWhat()[0]).getChildren()) {
                     sb.append(ln2.getData());
                 }
@@ -131,7 +131,17 @@ public class Printer {
 
     private LegislationNode pathBuilder(int[] what, int step, LegislationNode node)throws IndexOutOfBoundsException{
         if(step<10 && what[step]!=(-1)){
-            return pathBuilder(what,step+1,node.getChild(what[step]-node.getMin()));
+            if(step == 2){
+                LegislationNode n = new LegislationNode();
+                for(int i=0; i<node.getChildren().size();i++){
+                    if (node.getChild(i).getNum() == what[step]){
+                        n = node.getChild(i);
+                    }
+                }
+                return pathBuilder(what,step+1,n);
+            }else{
+                return pathBuilder(what,step+1,node.getChild(what[step]-1));
+            }
         }
         return node;
     }

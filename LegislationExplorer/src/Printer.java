@@ -101,9 +101,18 @@ public class Printer {
                 StringBuilder sb = new StringBuilder("Ustawa o ochronie konkurencji i konsumentów" + "\n" + "Spis Treści:" + "\n");
                 for (LegislationNode ln : root.getChildren()) {
                     sb.append(ln.getData());
-                    for (LegislationNode ln2 : ln.getChildren()) {
-                        sb.append(ln2.getData());
-                    }
+                    String SB2="";
+
+                        for (LegislationNode ln2 : ln.getChildren()) {
+                            SB2+=ln2.getData();
+                            if(SB2.equals("")){
+                                for (LegislationNode ln3 : ln2.getChildren()) {
+                                    SB2+=(ln3.getData());
+                                }
+                            }
+                            sb.append(SB2);
+                            SB2="";
+                        }
                 }
                 return sb.toString();
             }else{

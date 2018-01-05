@@ -43,6 +43,7 @@ public class LegislationTreeFactory {
     //0->konstytucja
     //1->uokik
     private void rek(LegislationNode root, int index, int v){
+
         if(index >= (v==1?7:3)){return;}
 
         String s = root.getData();
@@ -75,11 +76,14 @@ public class LegislationTreeFactory {
         }
 
         if(wrappers.isEmpty()){
-            if(v==1){ //punkty i rozdziały nie muszą istnieć
+            if(v==1){
                 root.setData("");
                 if(index!= 2){
                     root.setRange(1,1);
                     root.addChild(new LegislationNode(s,0));
+                }else{
+                    root.setRange(1,1);
+                    root.addChild(new LegislationNode(s,articles-1));
                 }
 
             }else{

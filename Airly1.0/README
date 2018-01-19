@@ -1,0 +1,6 @@
+Można wystartować z konsoli poprzez jar'a albo z klasy głównej AirlyClient ale trzeba dodać zależność do json.jar -tam jest parser jsona
+Po wpisaniu z błędnymi argumentami albo z argumentem --help wyświetla się pomoc.
+Proponowane argumenty to:
+--sensor-id=842
+--latitude=50 --longitude=19.9
+dlatego że są to sensory które dają najpełniejsze dane.
